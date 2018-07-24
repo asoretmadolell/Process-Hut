@@ -1,55 +1,75 @@
-// Process Hut.cpp : Defines the entry point for the console application.
-//
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/* Process Hut                                                               */
+/*                                                                           */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
+/*                                                                           */
+/* Description:                                                              */
+/*                                                                           */
+/* This application is for learning to manage Windows processes.             */
+/*                                                                           */
+/*****************************************************************************/
+/*                                                                           */
+/* Process Hut.cpp:                                                          */
+/*                                                                           */
+/* Defines the entry point for the console application.                      */
+/*                                                                           */
+/*****************************************************************************/
 
 #include "stdafx.h"
-
-
 #include <windows.h>
-#include <stdio.h>
-#include <tchar.h>
 #include <psapi.h>
 
 // To ensure correct resolution of symbols, add Psapi.lib to TARGETLIBS
 // and compile with -DPSAPI_VERSION=1
 
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/* PrintProcessNameAndID()                                                   */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
 void PrintProcessNameAndID( DWORD processID )
 {
     TCHAR szProcessName[ MAX_PATH ] = TEXT( "<unknown>" );
 
     // Get a handle to the process.
-
-    HANDLE hProcess = OpenProcess( PROCESS_QUERY_INFORMATION |
-                                   PROCESS_VM_READ,
-                                   FALSE, processID );
+    HANDLE hProcess = OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processID );
 
     // Get the process name.
-
     if( NULL != hProcess )
     {
         HMODULE hMod;
         DWORD cbNeeded;
 
-        if( EnumProcessModules( hProcess, &hMod, sizeof( hMod ),
-            &cbNeeded ) )
+        if( EnumProcessModules( hProcess, &hMod, sizeof( hMod ), &cbNeeded ) )
         {
-            GetModuleBaseName( hProcess, hMod, szProcessName,
-                               sizeof( szProcessName ) / sizeof( TCHAR ) );
+            GetModuleBaseName( hProcess, hMod, szProcessName, sizeof( szProcessName ) / sizeof( TCHAR ) );
         }
     }
 
     // Print the process name and identifier.
-
     _tprintf( TEXT( "%s  (PID: %u)\n" ), szProcessName, processID );
 
     // Release the handle to the process.
-
     CloseHandle( hProcess );
 }
 
-int main( void )
+/*****************************************************************************/
+/*                                                                           */
+/*                                                                           */
+/* _tmain()                                                                  */
+/*                                                                           */
+/*                                                                           */
+/*****************************************************************************/
+int _tmain( int argc, _TCHAR* argv[] )
 {
     // Get the list of process identifiers.
-
     DWORD aProcesses[ 1024 ], cbNeeded, cProcesses;
     unsigned int i;
 
@@ -58,13 +78,10 @@ int main( void )
         return 1;
     }
 
-
     // Calculate how many process identifiers were returned.
-
     cProcesses = cbNeeded / sizeof( DWORD );
 
     // Print the name and process identifier for each process.
-
     for( i = 0; i < cProcesses; i++ )
     {
         if( aProcesses[ i ] != 0 )
