@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include <windows.h>
 #include <psapi.h>
+#include "CProcess.h"
 
 // To ensure correct resolution of symbols, add Psapi.lib to TARGETLIBS
 // and compile with -DPSAPI_VERSION=1
@@ -69,6 +70,8 @@ void PrintProcessNameAndID( DWORD processID )
 /*****************************************************************************/
 int _tmain( int argc, _TCHAR* argv[] )
 {
+    //CProcess* myProcesses[ 1024 ];
+
     // Get the list of process identifiers.
     DWORD aProcesses[ 1024 ], cbNeeded, cProcesses;
     unsigned int i;
@@ -87,6 +90,7 @@ int _tmain( int argc, _TCHAR* argv[] )
         if( aProcesses[ i ] != 0 )
         {
             PrintProcessNameAndID( aProcesses[ i ] );
+            //myProcesses[ i ] = new CProcess( aProcesses[ i ] );
         }
     }
 
