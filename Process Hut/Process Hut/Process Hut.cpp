@@ -70,6 +70,16 @@ void PrintProcessNameAndID( DWORD processID )
 /*****************************************************************************/
 int _tmain( int argc, _TCHAR* argv[] )
 {
+    char ch;
+    ch = _fgetwchar();
+    switch( ch )
+    {
+        case 'q':
+            return 0;
+        default:
+            break;
+    }
+
     //CProcess* myProcesses[ 1024 ];
 
     // Get the list of process identifiers.
@@ -93,6 +103,4 @@ int _tmain( int argc, _TCHAR* argv[] )
             //myProcesses[ i ] = new CProcess( aProcesses[ i ] );
         }
     }
-
-    return 0;
 }
