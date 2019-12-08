@@ -79,9 +79,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Example.cpp" />
+    <ClCompile Include="CProcessHutGUIApp.cpp" />
+    <ClCompile Include="CProcessHutGUIDlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CProcessHutGUIApp.h" />
+    <ClInclude Include="CProcessHutGUIDlg.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Process Hut GUI.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Process Hut GUI.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
