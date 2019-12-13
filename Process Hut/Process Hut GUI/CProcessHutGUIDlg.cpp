@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CProcessHutGUIDlg.h"
 #include "CProcessHutGUIApp.h"
-#include "CProcess.h"
 #include <psapi.h>
 #include <string>
 
