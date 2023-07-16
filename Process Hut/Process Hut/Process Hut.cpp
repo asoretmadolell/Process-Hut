@@ -70,15 +70,31 @@ void PrintProcessNameAndID( DWORD processID )
 /*****************************************************************************/
 int _tmain( int argc, _TCHAR* argv[] )
 {
-    char ch;
-    ch = _fgetwchar();
-    switch( ch )
+    char answer;
+    bool done = false;
+
+    wprintf( L"Welcome to Process Hut\n" );
+    wprintf( L"\tType \"r\" to refresh process list\n" );
+    wprintf( L"\tType \"q\" to quit\n" );
+    wprintf( L"Choose your option: " );
+    do
     {
-        case 'q':
-            return 0;
-        default:
-            break;
+        answer = _fgetwchar();
+        switch( answer )
+        {
+            default:
+                wprintf( L"Try again, dumbass: " );
+                break;
+            case 'q':
+                return 0;
+            case '\n':
+                break;
+            case 'r':
+                done = true;
+                break;
+        }
     }
+    while( !done );
 
     //CProcess* myProcesses[ 1024 ];
 

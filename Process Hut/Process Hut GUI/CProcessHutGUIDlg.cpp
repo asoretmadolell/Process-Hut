@@ -3,6 +3,7 @@
 #include "CProcessHutGUIApp.h"
 #include <psapi.h>
 #include <string>
+#include <TlHelp32.h>
 
 // CProcessHutGUIDlg dialog
 
@@ -39,16 +40,44 @@ BOOL CProcessHutGUIDlg::OnInitDialog()
     cProcesses = cbNeeded / sizeof( DWORD );
     ShowWindow( SW_MINIMIZE );
 
-    HTREEITEM hItem, hProcess;
-    hItem = m_treeCtrl.InsertItem( L"Processes", TVI_ROOT );
+    HTREEITEM hProcessItem = m_treeCtrl.InsertItem( L"Processes", TVI_ROOT );
 
     for( i = 0; i < cProcesses; i++ )
     {
         if( aProcesses[ i ] != 0 )
         {
+             // Insert process item
             CString str;
             str.Format( TEXT( "Process %d" ), aProcesses[ i ] );
-            m_treeCtrl.InsertItem( str, hItem );
+            HTREEITEM hProcess = m_treeCtrl.InsertItem( str, hProcessItem );
+
+            // Insert threads as child items for the process
+            HANDLE hProcessHandle = OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, aProcesses[ i ] );
+            if( hProcessHandle != NULL )
+            {
+                 THREADENTRY32 threadEntry;
+                 threadEntry.dwSize = sizeof( THREADENTRY32 );
+
+                 HANDLE hThreadSnapshot = CreateToolhelp32Snapshot( TH32CS_SNAPTHREAD, 0 );
+                 if( hThreadSnapshot != INVALID_HANDLE_VALUE )
+                 {
+                      if( Thread32First( hThreadSnapshot, &threadEntry ) )
+                      {
+                           do
+                           {
+                                if( threadEntry.th32OwnerProcessID == aProcesses[ i ] )
+                                {
+                                     CString threadStr;
+                                     threadStr.Format( TEXT( "Thread %d" ), threadEntry.th32ThreadID );
+                                     m_treeCtrl.InsertItem( threadStr, hProcess );
+                                }
+                           }
+                           while( Thread32Next( hThreadSnapshot, &threadEntry ) );
+                      }
+                 }
+                 CloseHandle( hThreadSnapshot );
+            }
+            CloseHandle( hProcessHandle );
         }
     }
 
