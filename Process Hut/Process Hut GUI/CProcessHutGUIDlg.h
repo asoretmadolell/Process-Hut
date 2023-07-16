@@ -18,9 +18,22 @@ protected:
 
 // Implementation
 protected:
-    virtual BOOL OnInitDialog();
+     virtual BOOL OnInitDialog();
+
+     DECLARE_MESSAGE_MAP()
 
 public:    
     CString m_strTree;
     CTreeCtrl m_treeCtrl;
+
+
+private:
+     CButton m_btnDetails;
+     HTREEITEM m_selectedProcessItem;
+
+     afx_msg void OnBnClickedDetails();
+     //afx_msg LRESULT CProcessHutGUIDlg::OnTreeSelectionChanged( WPARAM wParam, LPARAM lParam, LRESULT* pResult );
+     afx_msg void OnTreeSelectionChanged( NMHDR* pNMHDR, LRESULT* pResult );
+
+
 };

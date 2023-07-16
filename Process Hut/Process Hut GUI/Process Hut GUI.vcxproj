@@ -79,10 +79,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CDetailsDlg.cpp" />
     <ClCompile Include="CProcessHutGUIApp.cpp" />
     <ClCompile Include="CProcessHutGUIDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CDetailsDlg.h" />
     <ClInclude Include="CProcessHutGUIApp.h" />
     <ClInclude Include="CProcessHutGUIDlg.h" />
     <ClInclude Include="resource.h" />
